@@ -1,1 +1,1 @@
-# product-filtering-tool
+# Product Filtering Tool
