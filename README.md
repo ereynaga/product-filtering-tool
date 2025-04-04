@@ -1,8 +1,6 @@
 # Product Filtering Tool
 
-A responsive web app built with React and Tailwind CSS. It allows users to filter a curated list of products by category and price range. Designed to showcase a clean and modern product grid, it emphasizes accessibility, performance, and intuitive interaction across devices.
-
-- - -
+A responsive web app that allows users to filter a curated list of products by category and price range.
 
 ## Features
 
@@ -43,3 +41,9 @@ npm run dev
 Once started, open your browser and visit: http://localhost:5173
 
 Visit the deployed app on Vercel: https://product-filtering-tool.vercel.app/
+
+## Future Enhancements
+
+- Add sorting options (e.g., price low to high, newest first)
+- Add pagination or infinite scroll for larger product lists
+- Add "New" and "On Sale" filters with conditional badges

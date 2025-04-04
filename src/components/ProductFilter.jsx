@@ -1,3 +1,4 @@
+// src/components/ProductFilter.jsx
 import { useEffect, useMemo, useState } from "react"
 import ProductCard from "./ProductCard"
 import products from "../data/products.json"
@@ -11,6 +12,25 @@ export default function ProductFilter() {
 
   // Filtered product list based on current filters
   const [filtered, setFiltered] = useState([])
+
+  // State to manage open/closed status of each accordion section
+  const [accordion, setAccordion] = useState({
+    category: true,
+    price: true,
+  })
+  
+  // Toggles the expanded/collapsed state of each filter section
+  const toggleAccordion = (section) => {
+    setAccordion(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }))
+  }
+
+  // Toggle for collapsing the sidebar on mobile
+  const [isCollapsed, setIsCollapsed] = useState(false)
+  const toggleCollapse = () => setIsCollapsed(prev => !prev)
+
 
   // Set price boundaries and unique categories once
   const { categories, minPrice, maxPrice } = useMemo(() => {
@@ -64,10 +84,6 @@ export default function ProductFilter() {
     })
   }
 
-  // Toggle for collapsing the sidebar on mobile
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const toggleCollapse = () => setIsCollapsed(prev => !prev)
-
   return (
     <div className="flex flex-col md:flex-row gap-8">
       {/* Sidebar Filters */}
@@ -85,49 +101,75 @@ export default function ProductFilter() {
         </div>
 
         <div className={`transition-all duration-300 ${isCollapsed ? "hidden" : "block"}`}>
+
           <div className="mb-6">
-            <h3 className="text-sm font-medium text-gray-700 mb-2 mt-4">Category</h3>
-            <div className="flex flex-wrap gap-2">
-              {categories.map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setSelectedCategory(cat)}
-                  className={`text-sm px-3 py-1.5 rounded-md border ${
-                    selectedCategory === cat
-                      ? "bg-gray-900 text-white border-gray-900"
-                      : "text-gray-700 border-gray-200 hover:bg-gray-50"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+            <button
+              onClick={() => toggleAccordion("category")}
+              className="group w-full flex items-center justify-between text-sm font-medium text-gray-700 mb-2 mt-4 relative"
+            >
+              <h3>Category</h3>
+              
+              <span
+                className="hidden md:inline-block opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-lg font-bold text-gray-500"
+              >
+                {accordion.category ? "−" : "+"}
+              </span>
+            </button>
+            <div className={`${accordion.category ? "block" : "hidden"} transition-all duration-300`}>
+              <div className="flex flex-wrap gap-2">
+                {categories.map(cat => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(cat)}
+                    className={`text-sm px-3 py-1.5 rounded-md border ${
+                      selectedCategory === cat
+                        ? "bg-gray-900 text-white border-gray-900"
+                        : "text-gray-700 border-gray-200 hover:bg-gray-50"
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
           <div className="mb-6">
-            <h3 className="text-sm font-medium text-gray-700 mb-2">Price Range</h3>
-            <div className="flex flex-row gap-2">
-              <div>
-                <label htmlFor="min" className="block text-xs text-gray-500 mb-1">Min Price ($)</label>
-                <input
-                  type="text"
-                  name="min"
-                  id="min"
-                  value={priceRange.min}
-                  onChange={handlePriceChange}
-                  className="w-full border rounded p-2 text-sm"
-                />
-              </div>
-              <div>
-                <label htmlFor="max" className="block text-xs text-gray-500 mb-1">Max Price ($)</label>
-                <input
-                  type="text"
-                  name="max"
-                  id="max"
-                  value={priceRange.max}
-                  onChange={handlePriceChange}
-                  className="w-full border rounded p-2 text-sm"
-                />
+            <button
+              onClick={() => toggleAccordion("price")}
+              className="group w-full flex items-center justify-between text-sm font-medium text-gray-700 mb-2 relative"
+            >
+              <h3>Price Range</h3>
+              <span
+                className="hidden md:inline-block opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-lg font-bold text-gray-500"
+              >
+                {accordion.price ? "−" : "+"}
+              </span>
+            </button>
+            <div className={`${accordion.price ? "block" : "hidden"} transition-all duration-300`}>
+              <div className="flex flex-row gap-2">
+                <div>
+                  <label htmlFor="min" className="block text-xs text-gray-500 mb-1">Min Price ($)</label>
+                  <input
+                    type="text"
+                    name="min"
+                    id="min"
+                    value={priceRange.min}
+                    onChange={handlePriceChange}
+                    className="w-full border rounded p-2 text-sm"
+                  />
+                </div>
+                <div>
+                  <label htmlFor="max" className="block text-xs text-gray-500 mb-1">Max Price ($)</label>
+                  <input
+                    type="text"
+                    name="max"
+                    id="max"
+                    value={priceRange.max}
+                    onChange={handlePriceChange}
+                    className="w-full border rounded p-2 text-sm"
+                  />
+                </div>
               </div>
             </div>
           </div>
