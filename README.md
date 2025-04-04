@@ -41,3 +41,5 @@ npm run dev
 ```
 
 Once started, open your browser and visit: http://localhost:5173
+
+Visit the deployed app on Vercel: https://product-filtering-tool.vercel.app/
