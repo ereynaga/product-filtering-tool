@@ -2,121 +2,169 @@
   {
     "id": 1,
     "name": "Premium Laptop Pro",
+    "brand": "TechPro",
     "category": "Electronics",
     "price": 999.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_57053abc-6ea6-4e8d-b204-2c232b4eb986?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "High-performance laptop with the latest processor and ample storage."
+    "description": "High-performance laptop with the latest processor and ample storage.",
+    "isNew": false,
+    "isOnSale": false
   },
   {
     "id": 2,
     "name": "Wireless Headphones",
+    "brand": "SonicPulse",
     "category": "Electronics",
     "price": 349.99,
+    "originalPrice": 399.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_f1b2216d-cea3-4771-9a36-5571d25b6335?wid=600&hei=600&qlt=80&fmt=webp",
-    "description": "Immersive sound experience with active noise cancellation."
+    "description": "Immersive sound experience with active noise cancellation.",
+    "isNew": false,
+    "isOnSale": true
   },
   {
     "id": 3,
     "name": "Smart Fitness Watch",
+    "brand": "FitTrack",
     "category": "Electronics",
     "price": 299.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_0abf9aaf-7cb4-47ce-97cc-62db7b8c2a26?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Track your fitness goals with this advanced smartwatch."
+    "description": "Track your fitness goals with this advanced smartwatch.",
+    "isNew": true,
+    "isOnSale": false
   },
   {
     "id": 4,
     "name": "Graphic Cotton T-Shirt",
+    "brand": "UrbanWear",
     "category": "Clothing",
     "price": 24.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_edc8ed4a-f044-4f11-9347-742dc4960a5c?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Comfortable and stylish t-shirt for everyday wear."
+    "description": "Comfortable and stylish t-shirt for everyday wear.",
+    "isNew": false,
+    "isOnSale": false
   },
   {
     "id": 5,
     "name": "Designer Jeans",
+    "brand": "DenimCo",
     "category": "Clothing",
     "price": 89.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_c232a1e8-7da0-49ba-89a1-43b6a6e69441?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Premium quality jeans with perfect fit and durability."
+    "description": "Premium quality jeans with perfect fit and durability.",
+    "isNew": false,
+    "isOnSale": false
   },
   {
     "id": 6,
     "name": "Running Shoes",
+    "brand": "SpeedStride",
     "category": "Footwear",
     "price": 119.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_3e2dd13a-47bc-4a0c-8fe0-ce824ad4b595?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Lightweight and comfortable shoes designed for runners."
+    "description": "Lightweight and comfortable shoes designed for runners.",
+    "isNew": true,
+    "isOnSale": false
   },
   {
     "id": 7,
     "name": "Leather Wallet",
+    "brand": "LeatherCraft",
     "category": "Accessories",
     "price": 49.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_07eb97dc-514c-4d08-8372-8164a1337bcb?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Genuine leather wallet with multiple card slots and compartments."
+    "description": "Genuine leather wallet with multiple card slots and compartments.",
+    "isNew": false,
+    "isOnSale": false
   },
   {
     "id": 8,
     "name": "Bestselling Novel",
+    "brand": "PageTurner",
     "category": "Books",
     "price": 15.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_0035cc74-7206-485d-aa04-83b3b7cf8db7?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "The latest bestseller that everyone is talking about."
+    "description": "The latest bestseller that everyone is talking about.",
+    "isNew": false,
+    "isOnSale": false
   },
   {
     "id": 9,
     "name": "Professional Camera",
+    "brand": "LensMaster",
     "category": "Electronics",
     "price": 799.99,
+    "originalPrice": 999.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_272870b9-144e-4892-a917-a957709e60be?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Capture stunning photos with this high-resolution camera."
+    "description": "Capture stunning photos with this high-resolution camera.",
+    "isNew": false,
+    "isOnSale": true
   },
   {
     "id": 10,
     "name": "Stainless Steel Water Bottle",
+    "brand": "EcoSip",
     "category": "Home & Kitchen",
     "price": 29.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_64a82c91-1413-492b-82bf-597a7a8a04b2?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Eco-friendly water bottle that keeps your drinks at the perfect temperature."
+    "description": "Eco-friendly water bottle that keeps your drinks at the perfect temperature.",
+    "isNew": false,
+    "isOnSale": false
   },
   {
     "id": 11,
     "name": "Yoga Mat",
+    "brand": "ZenFlow",
     "category": "Sports & Outdoors",
     "price": 34.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_97927635-844d-465b-a9cf-544640da65c8?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Non-slip yoga mat perfect for all types of yoga practices."
+    "description": "Non-slip yoga mat perfect for all types of yoga practices.",
+    "isNew": true,
+    "isOnSale": false
   },
   {
     "id": 12,
     "name": "Ceramic Coffee Mug",
+    "brand": "HomeClay",
     "category": "Home & Kitchen",
     "price": 19.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_e3241d33-861e-41ee-9726-7e8905bce5b4?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Stylish coffee mug that keeps your beverage warm."
+    "description": "Stylish coffee mug that keeps your beverage warm.",
+    "isNew": false,
+    "isOnSale": false
   },
   {
     "id": 13,
     "name": "Wireless Bluetooth Speaker",
+    "brand": "SoundWave",
     "category": "Electronics",
     "price": 89.99,
+    "originalPrice": 119.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_3cc39961-d3f7-43b0-83ab-4d4d53ce2aa8?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Portable speaker with exceptional sound quality."
+    "description": "Portable speaker with exceptional sound quality.",
+    "isNew": false,
+    "isOnSale": true
   },
   {
     "id": 14,
     "name": "Winter Jacket",
+    "brand": "NorthShield",
     "category": "Clothing",
     "price": 149.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_b119496b-d5e3-405c-96d4-807d2d638837?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Warm and waterproof jacket for cold weather conditions."
+    "description": "Warm and waterproof jacket for cold weather conditions.",
+    "isNew": true,
+    "isOnSale": false
   },
   {
     "id": 15,
     "name": "Leather Backpack",
+    "brand": "TravelCraft",
     "category": "Accessories",
     "price": 79.99,
     "imageUrl": "https://target.scene7.com/is/image/Target/GUEST_220f2542-0e02-4e77-bf48-113986b8cca5?wid=1200&hei=1200&qlt=80&fmt=webp",
-    "description": "Stylish and functional backpack for everyday use."
+    "description": "Stylish and functional backpack for everyday use.",
+    "isNew": false,
+    "isOnSale": false
   }
 ]

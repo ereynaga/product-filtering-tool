@@ -1,208 +1,132 @@
 // src/components/ProductFilter.jsx
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import ProductCard from "./ProductCard"
 import products from "../data/products.json"
 
+const priceRanges = [
+  { value: "all", label: "All Prices", min: 0, max: Infinity },
+  { value: "under-50", label: "Under $50", min: 0, max: 50 },
+  { value: "50-100", label: "$50 - $100", min: 50, max: 100 },
+  { value: "100-500", label: "$100 - $500", min: 100, max: 500 },
+  { value: "over-500", label: "Over $500", min: 500, max: Infinity },
+]
+
+const categories = ["All", ...Array.from(new Set(products.map(p => p.category)))]
+const brands = ["All", ...Array.from(new Set(products.map(p => p.brand)))]
+
+const categoryOptions = categories.map(c => ({ value: c, label: c }))
+const brandOptions = brands.map(b => ({ value: b, label: b }))
+const priceOptions = priceRanges.map(r => ({ value: r.value, label: r.label }))
+
+const ChevronDown = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-gray-500" aria-hidden="true">
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+)
+
 export default function ProductFilter() {
-  // Track currently selected category
   const [selectedCategory, setSelectedCategory] = useState("All")
+  const [selectedBrand, setSelectedBrand] = useState("All")
+  const [selectedPriceRange, setSelectedPriceRange] = useState("all")
 
-  // Store the min/max price as strings for controlled input behavior
-  const [priceRange, setPriceRange] = useState({ min: "", max: "" })
+  const activeFiltersCount =
+    (selectedCategory !== "All" ? 1 : 0) +
+    (selectedBrand !== "All" ? 1 : 0) +
+    (selectedPriceRange !== "all" ? 1 : 0)
 
-  // Filtered product list based on current filters
-  const [filtered, setFiltered] = useState([])
-
-  // State to manage open/closed status of each accordion section
-  const [accordion, setAccordion] = useState({
-    category: true,
-    price: true,
-  })
-  
-  // Toggles the expanded/collapsed state of each filter section
-  const toggleAccordion = (section) => {
-    setAccordion(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }))
-  }
-
-  // Toggle for collapsing the sidebar on mobile
-  const [isCollapsed, setIsCollapsed] = useState(false)
-  const toggleCollapse = () => setIsCollapsed(prev => !prev)
-
-
-  // Set price boundaries and unique categories once
-  const { categories, minPrice, maxPrice } = useMemo(() => {
-    const prices = products.map(p => p.price)
-    const unique = Array.from(new Set(products.map(p => p.category)))
-    return {
-      categories: ["All", ...unique],
-      minPrice: Math.floor(Math.min(...prices)),
-      maxPrice: Math.ceil(Math.max(...prices)),
-    }
-  }, [])
-
-  // Initialize price inputs with actual min/max values from dataset
-  useEffect(() => {
-    setPriceRange({
-      min: minPrice.toString(),
-      max: maxPrice.toString(),
-    })
-  }, [minPrice, maxPrice])
-  
-  // Apply filters whenever category or price range changes
-  useEffect(() => {
-    const result = products.filter(p => {
+  const filtered = useMemo(() => {
+    const range = priceRanges.find(r => r.value === selectedPriceRange) || priceRanges[0]
+    return products.filter(p => {
       const categoryMatch = selectedCategory === "All" || p.category === selectedCategory
-      const priceMin = parseFloat(priceRange.min) || 0
-      const priceMax = parseFloat(priceRange.max) || Infinity
-      const priceMatch = p.price >= priceMin && p.price <= priceMax
-      return categoryMatch && priceMatch
+      const brandMatch = selectedBrand === "All" || p.brand === selectedBrand
+      const priceMatch = p.price >= range.min && p.price <= range.max
+      return categoryMatch && brandMatch && priceMatch
     })
-    setFiltered(result)
-  }, [selectedCategory, priceRange])
+  }, [selectedCategory, selectedBrand, selectedPriceRange])
 
-  // Handle controlled price input changes (only allow whole numbers)
-  const handlePriceChange = (e) => {
-    const { name, value } = e.target
-
-    if (value === "" || /^[0-9]+$/.test(value)) {
-      setPriceRange(prev => ({
-        ...prev,
-        [name]: value,
-      }))
-    }
-  }
-
-  // Reset all filters to default values
-  const resetFilters = () => {
+  const clearFilters = () => {
     setSelectedCategory("All")
-    setPriceRange({
-      min: minPrice.toString(),
-      max: maxPrice.toString(),
-    })
+    setSelectedBrand("All")
+    setSelectedPriceRange("all")
   }
+
+  const FilterSelect = ({ label, value, onChange, options }) => (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-xs font-medium text-gray-600 uppercase tracking-wide">{label}</label>
+      <div className="relative">
+        <select
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="w-full appearance-none rounded-lg border border-gray-200 bg-white py-2.5 pl-3 pr-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-shadow cursor-pointer"
+        >
+          {options.map(option => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+        </select>
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+          <ChevronDown />
+        </span>
+      </div>
+    </div>
+  )
 
   return (
-    <div className="flex flex-col md:flex-row gap-8">
-      {/* Sidebar Filters */}
-      <aside className="w-full h-full md:w-64 bg-white border border-gray-100 p-4 rounded-xl">
-        <div className="flex flex-row justify-between">
-          <h2 className="font-semibold text-lg">Filters</h2>
-
+    <section>
+      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-6">
+        <div className="flex flex-col md:flex-row md:items-end gap-4">
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <FilterSelect
+              label="Category"
+              value={selectedCategory}
+              onChange={setSelectedCategory}
+              options={categoryOptions}
+            />
+            <FilterSelect
+              label="Brand"
+              value={selectedBrand}
+              onChange={setSelectedBrand}
+              options={brandOptions}
+            />
+            <FilterSelect
+              label="Price"
+              value={selectedPriceRange}
+              onChange={setSelectedPriceRange}
+              options={priceOptions}
+            />
+          </div>
           <button
-            onClick={toggleCollapse}
-            className="md:hidden text-xl font-bold text-gray-700"
-            aria-label="Toggle filter visibility"
+            type="button"
+            onClick={clearFilters}
+            disabled={activeFiltersCount === 0}
+            className="w-full md:w-auto py-2.5 px-4 text-sm font-medium rounded-lg border border-gray-200 text-gray-700 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-colors whitespace-nowrap"
           >
-            {isCollapsed ? "+" : "−"}
+            Clear all {activeFiltersCount > 0 && `(${activeFiltersCount})`}
           </button>
         </div>
+      </div>
 
-        <div className={`transition-all duration-300 ${isCollapsed ? "hidden" : "block"}`}>
+      <div className="mb-4 text-sm text-gray-500">
+        Showing <span className="font-medium text-gray-900">{filtered.length}</span> of {products.length} products
+      </div>
 
-          <div className="mb-6">
-            <button
-              onClick={() => toggleAccordion("category")}
-              className="group w-full flex items-center justify-between text-sm font-medium text-gray-700 mb-2 mt-4 relative"
-            >
-              <h3>Category</h3>
-              
-              <span
-                className="hidden md:inline-block opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-lg font-bold text-gray-500"
-              >
-                {accordion.category ? "−" : "+"}
-              </span>
-            </button>
-            <div className={`${accordion.category ? "block" : "hidden"} transition-all duration-300`}>
-              <div className="flex flex-wrap gap-2">
-                {categories.map(cat => (
-                  <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`text-sm px-3 py-1.5 rounded-md border ${
-                      selectedCategory === cat
-                        ? "bg-gray-900 text-white border-gray-900"
-                        : "text-gray-700 border-gray-200 hover:bg-gray-50"
-                    }`}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="mb-6">
-            <button
-              onClick={() => toggleAccordion("price")}
-              className="group w-full flex items-center justify-between text-sm font-medium text-gray-700 mb-2 relative"
-            >
-              <h3>Price Range</h3>
-              <span
-                className="hidden md:inline-block opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-lg font-bold text-gray-500"
-              >
-                {accordion.price ? "−" : "+"}
-              </span>
-            </button>
-            <div className={`${accordion.price ? "block" : "hidden"} transition-all duration-300`}>
-              <div className="flex flex-row gap-2">
-                <div>
-                  <label htmlFor="min" className="block text-xs text-gray-500 mb-1">Min Price ($)</label>
-                  <input
-                    type="text"
-                    name="min"
-                    id="min"
-                    value={priceRange.min}
-                    onChange={handlePriceChange}
-                    className="w-full border rounded p-2 text-sm"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="max" className="block text-xs text-gray-500 mb-1">Max Price ($)</label>
-                  <input
-                    type="text"
-                    name="max"
-                    id="max"
-                    value={priceRange.max}
-                    onChange={handlePriceChange}
-                    className="w-full border rounded p-2 text-sm"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
+      {filtered.length > 0 ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {filtered.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        <div className="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100">
+          <p className="text-gray-500 mb-4">No products match your filters.</p>
           <button
-            onClick={resetFilters}
-            className="w-full mt-4 py-2 text-sm text-gray-600 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+            type="button"
+            onClick={clearFilters}
+            className="text-sm bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
           >
-            Reset Filters
+            Clear all filters
           </button>
         </div>
-      </aside>
-
-      {/* Product Grid */}
-      <section className="flex-1">
-        {filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map(product => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        ) : (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center border border-gray-100">
-            <p className="text-gray-500 mb-4">No products match your current filters.</p>
-            <button
-              onClick={resetFilters}
-              className="text-sm bg-gray-900 text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
-            >
-              Reset Filters
-            </button>
-          </div>
-        )}
-      </section>
-    </div>
+      )}
+    </section>
   )
 }
